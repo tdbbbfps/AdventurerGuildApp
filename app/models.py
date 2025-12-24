@@ -7,17 +7,17 @@ class Adventurer(Base):
     
     id = Column(Integer, primary_key=True, index=True)
     name = Column(String, nullable=False, index=True)
-    class_id = Column(Integer, ForeignKey("classes.id"))
+    job_id = Column(Integer, ForeignKey("jobs.id"))
     level = Column(Integer, default=1)
     is_active = Column(Boolean, default=True)
     gold = Column(Integer, default=0)
     
-    classes = relationship("Class", back_populates="adventurers")
+    job = relationship("Job", back_populates="adventurers")
     
-class Class(Base):
-    __tablename__ = "classes"
+class Job(Base):
+    __tablename__ = "jobs"
     
     id = Column(Integer, primary_key=True, index=True)
-    name = Column(String, nullable=False, index=True)
+    name = Column(String, nullable=False, index=True, unique=True)
     
-    adventurers = relationship("Adventurer", back_populates="class")
+    adventurers = relationship("Adventurer", back_populates="jobs")
