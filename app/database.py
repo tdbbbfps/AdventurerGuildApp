@@ -15,3 +15,10 @@ engine = create_engine(db_url)
 session = sessionmaker(bind=engine)
 # Basic model for table
 Base = declarative_base()
+
+def get_database():
+    db = session()
+    try:
+        yield db
+    finally:
+        db.close()
