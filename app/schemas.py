@@ -18,14 +18,17 @@ class AdventurerUpdate(BaseModel):
     is_active : bool = Field(description="Adventurer's new status.", nullable=True)
     gold : int = Field(description="Adventurer's new gold.", ge=0, nullable=True)
 
-class Job(BaseModel):
+class JobBase(BaseModel):
     name : str = Field(..., min_length=3, max_length=50, description="Job's name.")
 
-class JobCreate(Job):
+class JobCreate(JobBase):
     pass
+
+class JobRead(JobBase):
+    id : int
 
 class Adventurer(AdventurerBase):
     id : int
-    job : Job
+    job : JobBase
     class Config:
         from_attributes = True
