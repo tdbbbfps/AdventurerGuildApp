@@ -12,7 +12,7 @@ router = APIRouter(
 async def root():
     return {"message": "Here's jobs router's endpoint."}
 
-@router.post("/create", response_model=schemas.Job)
+@router.post("/create", response_model=schemas.JobCreate)
 async def create_job(job : schemas.JobCreate, db : Session = Depends(database.get_database)):
     db_job = models.Job(name=job.name)
     db.add(db_job)
@@ -20,7 +20,8 @@ async def create_job(job : schemas.JobCreate, db : Session = Depends(database.ge
     db.refresh(db_job)
     return db_job
 
-@router.get("/read", response_model=list[schemas.Job])
+@router.get("/read", response_model=list[schemas.JobRead])
 async def read_jobs(db : Session = Depends(database.get_database)):
     jobs = db.query(models.Job).all()
     return jobs
+
